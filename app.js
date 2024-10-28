@@ -6,6 +6,31 @@ const nameInput = document.getElementById("nameInput");
 const jobsiteInput = document.getElementById("jobsiteInput");
 const logDiv = document.getElementById("log");
 
+// Función para obtener la fecha en formato YYYY-MM-DD
+function getFormattedDate() {
+  const today = new Date();
+  return today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate();
+}
+
+// Guardar la fecha de hoy en localStorage (solo se ejecuta al cargar el QR por primera vez)
+if (!localStorage.getItem("accessDate")) {
+  localStorage.setItem("accessDate", getFormattedDate());
+}
+
+// Función para verificar si la fecha de acceso sigue siendo válida
+function validateAccessDate() {
+  const storedDate = localStorage.getItem("accessDate");
+  const currentDate = getFormattedDate();
+
+  if (storedDate !== currentDate) {
+    alert("Access expired. Please scan the new QR code to access the site.");
+    window.location.href = "https://www.error-page.com"; // Reemplaza este enlace con una página de error o una página vacía
+  }
+}
+
+// Ejecutar la verificación de fecha al cargar la página
+validateAccessDate();
+
 // Función para mostrar la información de Check-In o Check-Out
 function logAction(action) {
   const name = nameInput.value;
