@@ -1,3 +1,4 @@
+
 // Obtener referencias a los elementos del formulario
 const checkInButton = document.getElementById("checkInButton");
 const checkOutButton = document.getElementById("checkOutButton");
