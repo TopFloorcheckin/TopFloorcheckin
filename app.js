@@ -1,37 +1,35 @@
-// Inicializar EmailJS
-emailjs.init("VO5iB68usHdIBsSsH"); 
-
-// Obtener los botones y campo de texto
+// Obtener referencias a los elementos del formulario
 const checkInButton = document.getElementById("checkInButton");
 const checkOutButton = document.getElementById("checkOutButton");
 const nameInput = document.getElementById("nameInput");
+const jobsiteInput = document.getElementById("jobsiteInput");
+const logDiv = document.getElementById("log");
 
-// Función para enviar el correo electrónico
-function sendEmail(action) {
+// Función para mostrar la información de Check-In o Check-Out
+function logAction(action) {
   const name = nameInput.value;
-  if (!name) {
-    alert("Please enter your name before checking in or out.");
+  const jobsite = jobsiteInput.value;
+  const timestamp = new Date().toLocaleString();
+
+  if (!name || !jobsite) {
+    alert("Please enter both your name and the jobsite.");
     return;
   }
 
-  const templateParams = {
-    name: name,
-    action: action
-  };
+  // Crear un mensaje de log para mostrar en la página
+  const logMessage = `<p><strong>${action}:</strong> ${name} at ${jobsite} on ${timestamp}</p>`;
+  logDiv.innerHTML += logMessage;
 
-  emailjs.send("service_2pcy0vq", "template_ivk1irl", templateParams)
-    .then(function(response) {
-      alert(`${action} successful!`);
-    }, function(error) {
-      alert("An error occurred. Please try again.");
-    });
+  // Limpiar los campos después de registrar el check-in o check-out
+  nameInput.value = "";
+  jobsiteInput.value = "";
 }
 
-// Asignar eventos a los botones
+// Agregar eventos a los botones
 checkInButton.addEventListener("click", function() {
-  sendEmail("Check-In");
+  logAction("Check-In");
 });
 
 checkOutButton.addEventListener("click", function() {
-  sendEmail("Check-Out");
+  logAction("Check-Out");
 });
