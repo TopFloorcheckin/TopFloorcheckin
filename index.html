@@ -1,24 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Top Floor Check-in and Check-out for Lynn Parkside</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Top Floor Check In and Out for Lynn Parkside</title>
 </head>
-<body onload="checkAccess()">
-    <div class="container">
-        <h1>Top Floor Check-in and Check-out for Lynn Parkside</h1>
-        <div class="form-group">
-            <input type="text" id="employeeName" placeholder="Enter your name">
-        </div>
-        <div class="form-group">
-            <button id="checkin-btn" onclick="sendCheckInOut('checkin')">Check-in</button>
-            <button id="checkout-btn" onclick="sendCheckInOut('checkout')">Check-out</button>
-        </div>
-        <div id="confirmation"></div>
-    </div>
-    <script src="app.js"></script>
+<body>
+  <h1>Top Floor Check In and Out for Lynn Parkside</h1>
+  <input type="text" id="nameInput" placeholder="Enter your name" required>
+  <button id="checkInButton">Check In</button>
+  <button id="checkOutButton">Check Out</button>
+  <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+  <script src="app.js"></script>
 </body>
 </html>
