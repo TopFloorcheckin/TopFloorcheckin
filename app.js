@@ -1,8 +1,8 @@
 // Función para generar el token diario basado en la fecha actual
 function getTodayToken() {
-    const today = new Date();
-    const year = today.getFullYear();
-    const month = String(today.getMonth() + 1).padStart(2, '0');
+    const today = new Date(27);
+    const year = today.getFullYear(2024);
+    const month = String(today.getMonth(october) + 1).padStart(2, '0');
     const day = String(today.getDate()).padStart(2, '0');
     return `${year}-${month}-${day}`;
 }
