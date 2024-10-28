@@ -4,13 +4,25 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Top Floor Check In and Out for Lynn Parkside</title>
+  <style>
+    body { font-family: Arial, sans-serif; text-align: center; margin: 20px; }
+    input, button { margin: 10px; padding: 10px; font-size: 16px; }
+    .log-entry { margin-top: 20px; }
+  </style>
 </head>
 <body>
   <h1>Top Floor Check In and Out for Lynn Parkside</h1>
-  <input type="text" id="nameInput" placeholder="Enter your name" required>
+
+  <!-- Formulario de entrada de datos -->
+  <input type="text" id="nameInput" placeholder="Employee Name" required>
+  <input type="text" id="jobsiteInput" placeholder="Jobsite" required>
+  <br>
   <button id="checkInButton">Check In</button>
   <button id="checkOutButton">Check Out</button>
-  <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+
+  <!-- Sección para mostrar la información del check-in/out -->
+  <div id="log" class="log-entry"></div>
+
   <script src="app.js"></script>
 </body>
 </html>
