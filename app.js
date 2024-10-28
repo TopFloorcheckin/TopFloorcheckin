@@ -21,7 +21,7 @@ function checkAccess() {
 }
 
 // Configuración de EmailJS
-const emailServiceID = service_k0fnz5m
+const emailServiceID = service_2pcy0vq
 const emailTemplateID = template_ivk1irl
 const emailUserID = VO5iB68usHdIBsSsH
 
@@ -31,7 +31,7 @@ emailjs.init(emailUserID);
 // Función para enviar la notificación de check-in/check-out por correo electrónico
 function sendEmailNotification(employeeName, action) {
     const templateParams = {
-        to_email: 'emmanuel@tofloords.ca',
+        to_email: 'hemmanuelmtz@gmail.com,
         employee_name: employeeName,
         action: action,
         date: new Date().toLocaleString()
