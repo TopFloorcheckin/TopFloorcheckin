@@ -59,3 +59,4 @@ checkInButton.addEventListener("click", function() {
 checkOutButton.addEventListener("click", function() {
   logAction("Check-Out");
 });
+import { Analytics } from "@vercel/analytics/react"
