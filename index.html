@@ -1,28 +1,50 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Top Floor Check in and out for Lynn Parkside</title>
-  <style>
-    body { font-family: Arial, sans-serif; text-align: center; margin: 20px; }
-    input, button { margin: 10px; padding: 10px; font-size: 16px; }
-    .log-entry { margin-top: 20px; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Control de Asistencia</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <h1>Top Floor Check in and out for Lynn Parkside</h1>
+    <div class="container">
+        <h1>Control de Asistencia</h1>
+        
+        <!-- Simulación de escaneo QR -->
+        <button id="scanQR" onclick="showForm()">Simular Escaneo QR</button>
+        
+        <!-- Formulario de registro de asistencia -->
+        <div id="attendanceForm" class="hidden">
+            <label for="workerName">Nombre del Trabajador:</label>
+            <input type="text" id="workerName" placeholder="Ingresa tu nombre">
+            
+            <button onclick="registerAttendance('entrada')">Registrar Entrada</button>
+            <button onclick="registerAttendance('salida')">Registrar Salida</button>
+            
+            <p id="message"></p>
+        </div>
+        
+        <!-- Botón para generar reporte diario -->
+        <button onclick="generateReport()">Generar Reporte Diario</button>
+        
+        <!-- Reporte en formato tabla -->
+        <div id="reportTable" class="hidden">
+            <h2>Reporte Diario</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Fecha</th>
+                        <th>Hora de Entrada</th>
+                        <th>Hora de Salida</th>
+                    </tr>
+                </thead>
+                <tbody id="reportBody">
+                </tbody>
+            </table>
+        </div>
+    </div>
 
-  <!-- Formulario de entrada de datos -->
-  <input type="text" id="nameInput" placeholder="Employee Name" required>
-  <input type="text" id="jobsiteInput" placeholder="Jobsite" required>
-  <br>
-  <button id="checkInButton">Check In</button>
-  <button id="checkOutButton">Check Out</button>
-
-  <!-- Sección para mostrar la información del check-in/out -->
-  <div id="log" class="log-entry"></div>
-
-  <script src="app.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
