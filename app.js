@@ -1,60 +1,72 @@
-// Obtener referencias a los elementos del formulario
-const checkInButton = document.getElementById("checkInButton");
-const checkOutButton = document.getElementById("checkOutButton");
-const nameInput = document.getElementById("nameInput");
-const jobsiteInput = document.getElementById("jobsiteInput");
-const logDiv = document.getElementById("log");
+// Simulación de almacenamiento en memoria
+let attendanceData = JSON.parse(localStorage.getItem("attendanceData")) || {};
 
-// Función para obtener la fecha en formato YYYY-MM-DD
-function getFormattedDate() {
-  const today = new Date();
-  return today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate();
+// Mostrar el formulario después de escanear el QR
+function showForm() {
+    document.getElementById("attendanceForm").classList.remove("hidden");
+    document.getElementById("scanQR").classList.add("hidden");
 }
 
-// Guardar la fecha de hoy en localStorage (solo se ejecuta al cargar el QR por primera vez)
-if (!localStorage.getItem("accessDate")) {
-  localStorage.setItem("accessDate", getFormattedDate());
+// Registrar la asistencia
+function registerAttendance(type) {
+    const name = document.getElementById("workerName").value.trim();
+    const date = new Date().toLocaleDateString();
+    const time = new Date().toLocaleTimeString();
+    const message = document.getElementById("message");
+
+    if (!name) {
+        message.innerText = "Por favor, ingresa tu nombre.";
+        return;
+    }
+
+    if (!attendanceData[name]) {
+        attendanceData[name] = {};
+    }
+    
+    if (!attendanceData[name][date]) {
+        attendanceData[name][date] = { entrada: null, salida: null };
+    }
+
+    if (type === 'entrada') {
+        if (attendanceData[name][date].entrada) {
+            message.innerText = "La entrada ya ha sido registrada hoy.";
+        } else {
+            attendanceData[name][date].entrada = time;
+            message.innerText = "Entrada registrada a las " + time;
+            localStorage.setItem("attendanceData", JSON.stringify(attendanceData));
+        }
+    } else if (type === 'salida') {
+        if (attendanceData[name][date].salida) {
+            message.innerText = "La salida ya ha sido registrada hoy.";
+        } else if (!attendanceData[name][date].entrada) {
+            message.innerText = "Primero debe registrar la entrada.";
+        } else {
+            attendanceData[name][date].salida = time;
+            message.innerText = "Salida registrada a las " + time;
+            localStorage.setItem("attendanceData", JSON.stringify(attendanceData));
+        }
+    }
 }
 
-// Función para verificar si la fecha de acceso sigue siendo válida
-function validateAccessDate() {
-  const storedDate = localStorage.getItem("accessDate");
-  const currentDate = getFormattedDate();
-
-  if (storedDate !== currentDate) {
-    alert("Access expired. Please scan the new QR code to access the site.");
-    window.location.href = "https://www.error-page.com"; // Reemplaza este enlace con una página de error o una página vacía
-  }
+// Generar reporte diario
+function generateReport() {
+    const reportTable = document.getElementById("reportTable");
+    const reportBody = document.getElementById("reportBody");
+    const date = new Date().toLocaleDateString();
+    reportBody.innerHTML = "";
+    
+    for (const [name, records] of Object.entries(attendanceData)) {
+        if (records[date]) {
+            const { entrada, salida } = records[date];
+            const row = `<tr>
+                            <td>${name}</td>
+                            <td>${date}</td>
+                            <td>${entrada || 'No registrado'}</td>
+                            <td>${salida || 'No registrado'}</td>
+                        </tr>`;
+            reportBody.innerHTML += row;
+        }
+    }
+    
+    reportTable.classList.remove("hidden");
 }
-
-// Ejecutar la verificación de fecha al cargar la página
-validateAccessDate();
-
-// Función para mostrar la información de Check-In o Check-Out
-function logAction(action) {
-  const name = nameInput.value;
-  const jobsite = jobsiteInput.value;
-  const timestamp = new Date().toLocaleString();
-
-  if (!name || !jobsite) {
-    alert("Please enter both your name and the jobsite.");
-    return;
-  }
-
-  // Crear un mensaje de log para mostrar en la página
-  const logMessage = `<p><strong>${action}:</strong> ${name} at ${jobsite} on ${timestamp}</p>`;
-  logDiv.innerHTML += logMessage;
-
-  // Limpiar los campos después de registrar el check-in o check-out
-  nameInput.value = "";
-  jobsiteInput.value = "";
-}
-
-// Agregar eventos a los botones
-checkInButton.addEventListener("click", function() {
-  logAction("Check-In");
-});
-
-checkOutButton.addEventListener("click", function() {
-  logAction("Check-Out");
-});
