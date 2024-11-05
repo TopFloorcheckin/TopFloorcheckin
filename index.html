@@ -35,6 +35,7 @@
             cursor: pointer;
         }
         #registro-dia {
+            display: none; /* Oculto inicialmente hasta ingresar el PIN */
             margin-top: 20px;
         }
         .registro-item {
@@ -58,6 +59,7 @@
 
     <button onclick="registrarEntrada()">Check-in</button>
     <button onclick="registrarSalida()">Check-out</button>
+    <button onclick="solicitarPin()">Ver registros del día</button>
 </div>
 
 <div id="registro-dia">
@@ -129,6 +131,18 @@
         });
 
         registroDia.style.display = "block";
+    }
+
+    // Solicita PIN para acceder a los registros del día
+    function solicitarPin() {
+        const pin = prompt("Ingrese el PIN de administrador para ver los registros:");
+
+        if (pin === '0090') {
+            document.getElementById("registro-dia").style.display = "block";
+            mostrarRegistrosDelDia();
+        } else {
+            alert("PIN incorrecto. Acceso denegado.");
+        }
     }
 </script>
 
