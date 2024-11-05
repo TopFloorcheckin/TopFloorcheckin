@@ -4,47 +4,131 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Control de Asistencia</title>
-    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+        .container {
+            max-width: 400px;
+            width: 100%;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            text-align: center;
+        }
+        input, button {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            font-size: 16px;
+        }
+        button {
+            cursor: pointer;
+        }
+        #registro-dia {
+            margin-top: 20px;
+            display: none;
+        }
+        .registro-item {
+            margin: 5px 0;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+    </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Control de Asistencia</h1>
-        
-        <!-- Simulación de escaneo QR -->
-        <button id="scanQR" onclick="showForm()">Simular Escaneo QR</button>
-        
-        <!-- Formulario de registro de asistencia -->
-        <div id="attendanceForm" class="hidden">
-            <label for="workerName">Nombre del Trabajador:</label>
-            <input type="text" id="workerName" placeholder="Ingresa tu nombre">
-            
-            <button onclick="registerAttendance('entrada')">Registrar Entrada</button>
-            <button onclick="registerAttendance('salida')">Registrar Salida</button>
-            
-            <p id="message"></p>
-        </div>
-        
-        <!-- Botón para generar reporte diario -->
-        <button onclick="generateReport()">Generar Reporte Diario</button>
-        
-        <!-- Reporte en formato tabla -->
-        <div id="reportTable" class="hidden">
-            <h2>Reporte Diario</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Nombre</th>
-                        <th>Fecha</th>
-                        <th>Hora de Entrada</th>
-                        <th>Hora de Salida</th>
-                    </tr>
-                </thead>
-                <tbody id="reportBody">
-                </tbody>
-            </table>
-        </div>
-    </div>
 
-    <script src="script.js"></script>
+<div class="container">
+    <h2>Control de Asistencia</h2>
+    <label for="nombre">Nombre del Trabajador:</label>
+    <input type="text" id="nombre" placeholder="Ingresa tu nombre">
+    
+    <label for="jobsite">Jobsite:</label>
+    <input type="text" id="jobsite" placeholder="Ingresa el jobsite">
+
+    <button onclick="registrarEntrada()">Check-in</button>
+    <button onclick="registrarSalida()">Check-out</button>
+</div>
+
+<div id="registro-dia">
+    <h2>Registros del Día</h2>
+    <div id="lista-registros"></div>
+</div>
+
+<script>
+    // Array para almacenar los registros
+    const registros = [];
+
+    // Función para registrar la entrada
+    function registrarEntrada() {
+        const nombre = document.getElementById("nombre").value.trim();
+        const jobsite = document.getElementById("jobsite").value.trim();
+        const horaActual = new Date().toLocaleTimeString();
+
+        if (!nombre || !jobsite) {
+            alert("Por favor ingresa todos los datos.");
+            return;
+        }
+
+        registros.push({ nombre, jobsite, tipo: "Check-in", hora: horaActual });
+        alert("Check-in registrado para " + nombre + " a las " + horaActual);
+        
+        document.getElementById("nombre").value = "";
+        document.getElementById("jobsite").value = "";
+    }
+
+    // Función para registrar la salida
+    function registrarSalida() {
+        const nombre = document.getElementById("nombre").value.trim();
+        const jobsite = document.getElementById("jobsite").value.trim();
+        const horaActual = new Date().toLocaleTimeString();
+
+        if (!nombre || !jobsite) {
+            alert("Por favor ingresa todos los datos.");
+            return;
+        }
+
+        registros.push({ nombre, jobsite, tipo: "Check-out", hora: horaActual });
+        alert("Check-out registrado para " + nombre + " a las " + horaActual);
+        
+        document.getElementById("nombre").value = "";
+        document.getElementById("jobsite").value = "";
+    }
+
+    // Función para mostrar los registros al final del día
+    function mostrarRegistrosDelDia() {
+        const registroDia = document.getElementById("registro-dia");
+        const listaRegistros = document.getElementById("lista-registros");
+        listaRegistros.innerHTML = "";  // Limpiar lista
+
+        registros.forEach(registro => {
+            const registroItem = document.createElement("div");
+            registroItem.classList.add("registro-item");
+            registroItem.textContent = `${registro.nombre} - ${registro.jobsite} - ${registro.tipo} - ${registro.hora}`;
+            listaRegistros.appendChild(registroItem);
+        });
+
+        registroDia.style.display = "block";
+    }
+
+    // Llama a mostrarRegistrosDelDia() al final del día o cuando sea necesario
+    // Puedes descomentar la siguiente línea para verlo al cargar la página (solo para pruebas)
+    // mostrarRegistrosDelDia();
+
+    // Para propósito de prueba:
+    mostrarRegistrosDelDia();
+</script>
+
 </body>
 </html>
