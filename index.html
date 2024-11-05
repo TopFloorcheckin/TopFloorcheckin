@@ -36,7 +36,6 @@
         }
         #registro-dia {
             margin-top: 20px;
-            display: none;
         }
         .registro-item {
             margin: 5px 0;
@@ -75,17 +74,20 @@
         const nombre = document.getElementById("nombre").value.trim();
         const jobsite = document.getElementById("jobsite").value.trim();
         const horaActual = new Date().toLocaleTimeString();
+        const fechaActual = new Date().toLocaleDateString();
 
         if (!nombre || !jobsite) {
             alert("Por favor ingresa todos los datos.");
             return;
         }
 
-        registros.push({ nombre, jobsite, tipo: "Check-in", hora: horaActual });
+        registros.push({ nombre, jobsite, tipo: "Check-in", hora: horaActual, fecha: fechaActual });
         alert("Check-in registrado para " + nombre + " a las " + horaActual);
         
         document.getElementById("nombre").value = "";
         document.getElementById("jobsite").value = "";
+
+        mostrarRegistrosDelDia(); // Actualizar la lista de registros
     }
 
     // Función para registrar la salida
@@ -93,26 +95,33 @@
         const nombre = document.getElementById("nombre").value.trim();
         const jobsite = document.getElementById("jobsite").value.trim();
         const horaActual = new Date().toLocaleTimeString();
+        const fechaActual = new Date().toLocaleDateString();
 
         if (!nombre || !jobsite) {
             alert("Por favor ingresa todos los datos.");
             return;
         }
 
-        registros.push({ nombre, jobsite, tipo: "Check-out", hora: horaActual });
+        registros.push({ nombre, jobsite, tipo: "Check-out", hora: horaActual, fecha: fechaActual });
         alert("Check-out registrado para " + nombre + " a las " + horaActual);
         
         document.getElementById("nombre").value = "";
         document.getElementById("jobsite").value = "";
+
+        mostrarRegistrosDelDia(); // Actualizar la lista de registros
     }
 
-    // Función para mostrar los registros al final del día
+    // Función para mostrar los registros del día
     function mostrarRegistrosDelDia() {
         const registroDia = document.getElementById("registro-dia");
         const listaRegistros = document.getElementById("lista-registros");
         listaRegistros.innerHTML = "";  // Limpiar lista
 
-        registros.forEach(registro => {
+        // Filtra los registros solo para el día actual
+        const fechaActual = new Date().toLocaleDateString();
+        const registrosDelDia = registros.filter(registro => registro.fecha === fechaActual);
+
+        registrosDelDia.forEach(registro => {
             const registroItem = document.createElement("div");
             registroItem.classList.add("registro-item");
             registroItem.textContent = `${registro.nombre} - ${registro.jobsite} - ${registro.tipo} - ${registro.hora}`;
@@ -121,13 +130,6 @@
 
         registroDia.style.display = "block";
     }
-
-    // Llama a mostrarRegistrosDelDia() al final del día o cuando sea necesario
-    // Puedes descomentar la siguiente línea para verlo al cargar la página (solo para pruebas)
-    // mostrarRegistrosDelDia();
-
-    // Para propósito de prueba:
-    mostrarRegistrosDelDia();
 </script>
 
 </body>
